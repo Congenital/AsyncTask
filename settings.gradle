@@ -1,0 +1,2 @@
+include ':app', ':asynctask'
+rootProject.name='TestAsyncService'

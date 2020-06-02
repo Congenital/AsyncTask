@@ -21,9 +21,7 @@ public class TaskManager<T> implements ITaskManger<T, Context, ITask<T>> {
 
     private T mTask;
 
-    @Override
-    public void init(T task) {
-        mTask = task;
+    public TaskManager() {
         mHandlerThread.start();
         mTaskHandler = new Handler(mHandlerThread.getLooper()) {
             @Override
@@ -32,6 +30,15 @@ public class TaskManager<T> implements ITaskManger<T, Context, ITask<T>> {
                 invokeCallback(taskInfo);
             }
         };
+    }
+
+    @Override
+    public void init(T task) {
+        if (task == null) {
+            mTask = null;
+            return;
+        }
+        mTask = task;
 
         TaskInfo<Context, ITask<T>> taskInfo = null;
         while ((taskInfo = mQueue.poll()) != null) {
@@ -60,7 +67,7 @@ public class TaskManager<T> implements ITaskManger<T, Context, ITask<T>> {
             return;
 
         TaskInfo<Context, ITask<T>> taskInfo = new TaskInfo(context, callback);
-        if (mTask == null) {
+        if (!isAlive()) {
             mQueue.offer(taskInfo);
             return;
         }
@@ -68,6 +75,14 @@ public class TaskManager<T> implements ITaskManger<T, Context, ITask<T>> {
         Message message = Message.obtain();
         message.obj = taskInfo;
         mTaskHandler.sendMessage(message);
+    }
+
+    @Override
+    public boolean isAlive() {
+        return mTask != null &&
+                mTaskHandler != null &&
+                mHandlerThread != null &&
+                !mHandlerThread.isInterrupted();
     }
 
     @Override

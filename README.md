@@ -22,3 +22,5 @@ manager.init(T t);
 // 非Activity示例默认单独线程操作，要注意任务不要阻塞该线程
 manager.postTask(Context context, ITask<T> task);
 ```
+
+感谢 [@艾同学](https://github.com/dlaiFor) 为这个小玩具提供的想法及技术支持。

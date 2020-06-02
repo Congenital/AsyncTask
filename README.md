@@ -23,4 +23,4 @@ manager.init(T t);
 manager.postTask(Context context, ITask<T> task);
 ```
 
-感谢 [@艾同学](https://github.com/dlaiFor) 为这个小玩具提供的想法及技术支持。
+感谢 [@艾同学](https://github.com/dlaiFor) 的参与，为这个小玩具提供的想法及技术支持。
